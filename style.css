@@ -125,7 +125,7 @@ h1 {
 #start-form input[type="number"]:focus {
   border: 1.5px solid #6dd5ed;
 }
-#start-form button[type="submit"] {
+.styled-btn, #start-form button[type="submit"], #next-btn, #answers button {
   background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
   color: #fff;
   border: none;
@@ -136,10 +136,20 @@ h1 {
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(33,147,176,0.13);
   transition: background 0.2s, transform 0.1s;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  display: inline-block;
 }
-#start-form button[type="submit"]:hover {
+.styled-btn:hover, #start-form button[type="submit"]:hover, #next-btn:hover, #answers button:hover {
   background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
   transform: translateY(-2px) scale(1.04);
+}
+.motivacion {
+  text-align: center;
+  font-size: 1.15em;
+  color: #2193b0;
+  margin: 1.2em 0 0.5em 0;
+  font-weight: 500;
 }
 #start-form #error-msg {
   color: #e53935;

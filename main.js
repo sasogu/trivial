@@ -139,6 +139,7 @@ function nextQuestion() {
         const restartBtn = document.createElement('button');
         restartBtn.textContent = 'Jugar de nuevo';
         restartBtn.onclick = showStartScreen;
+        restartBtn.className = 'styled-btn'; // Añade la clase para el estilo
         scoreEl.parentNode.appendChild(restartBtn);
     }
 }
