@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Trivial</title>
+    <title>Explora la sabiduría ancestral del budismo</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2193b0">
@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Juego de Trivial</h1>
+        <h1>Trivial</h1>
         <div id="question-container">
             <div id="question">Cargando pregunta...</div>
             <div id="answers"></div>
@@ -20,13 +20,17 @@
         <div id="score">Puntuación: 0</div>
         <button id="next-btn">Siguiente</button>
     </div>
+    <footer class="footer">
+      &copy; <span id="year"></span> Comunidad Soto Zen Camino Medio
+    </footer>
     <script src="main.js"></script>
     <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('service-worker.js');
         });
       }
     </script>
-</body>
+  </body>
 </html>

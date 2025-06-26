@@ -63,3 +63,17 @@ body {
     background: #2193b0;
     color: #fff;
 }
+
+.footer {
+  text-align: center;
+  padding: 1em 0;
+  color: #fff;
+  background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+  font-size: 0.95em;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  z-index: 100;
+  box-shadow: 0 -2px 8px rgba(33,147,176,0.1);
+}

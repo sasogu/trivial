@@ -1,6 +1,10 @@
+// Versión del caché
+const CACHE_VERSION = 'v2';
+const CACHE_NAME = `trivial-${CACHE_VERSION}`;
+
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open('trivial-v1').then(cache => {
+    caches.open(CACHE_NAME).then(cache => {
       return cache.addAll([
         '/',
         '/index.html',
@@ -10,6 +14,17 @@ self.addEventListener('install', event => {
         '/icon-192.png',
         '/icon-512.png'
       ]);
+    })
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key.startsWith('trivial-') && key !== CACHE_NAME)
+            .map(key => caches.delete(key))
+      );
     })
   );
 });

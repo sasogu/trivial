@@ -1,63 +1,47 @@
-const questions = [
-    {
-        question: "¿Cuál es la capital de Francia?",
-        answers: ["Madrid", "París", "Roma", "Berlín"],
-        correct: 1
-    },
-    {
-        question: "¿Quién escribió 'Cien años de soledad'?",
-        answers: ["Gabriel García Márquez", "Mario Vargas Llosa", "Julio Cortázar", "Pablo Neruda"],
-        correct: 0
-    },
-    {
-        question: "¿Cuál es el elemento químico con símbolo O?",
-        answers: ["Oro", "Oxígeno", "Osmio", "Oxalato"],
-        correct: 1
-    },
-    // Ejemplo 1
-    {
-        question: "¿En qué año llegó el hombre a la Luna?",
-        answers: ["1965", "1969", "1972", "1959"],
-        correct: 1
-    },
-    // Ejemplo 2
-    {
-        question: "¿Cuál es el río más largo del mundo?",
-        answers: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
-        correct: 1
-    },
-    // Ejemplo 3
-    {
-        question: "¿Quién pintó la Mona Lisa?",
-        answers: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Claude Monet"],
-        correct: 1
-    }
-];
-
-// NUEVO: Selección de número de preguntas
 const container = document.querySelector('.container');
-const questionContainer = document.getElementById('question-container');
-const scoreDiv = document.getElementById('score');
-const nextBtn = document.getElementById('next-btn');
 
 let selectedQuestions = [];
 let numQuestions = 3;
-let questionEl, answersEl, scoreEl;
+let questionEl, answersEl, scoreEl, nextBtn;
 let currentQuestion = 0;
 let score = 0;
 
+// Cargar preguntas desde questions.js
+let questions = [];
+
+async function loadQuestions() {
+    // Cargar el archivo de preguntas dinámicamente
+    if (window.questions) {
+        questions = window.questions;
+        showStartScreen();
+        return;
+    }
+    try {
+        const module = await import('./questions.js');
+        questions = module.questions;
+        showStartScreen();
+    } catch (e) {
+        container.innerHTML = '<p style="color:red">No se pudieron cargar las preguntas.</p>';
+    }
+}
+
 function showStartScreen() {
     container.innerHTML = `
-        <h1>Juego de Trivial</h1>
+        <h1>Explora la sabiduría ancestral del budismo</h1>
         <form id="start-form">
             <label for="num">¿Cuántas preguntas quieres responder? (1-${questions.length})</label>
             <input type="number" id="num" name="num" min="1" max="${questions.length}" value="${questions.length}" required style="width:60px; margin-left:8px;">
             <button type="submit">Comenzar</button>
         </form>
+        <div id="error-msg" style="color:red;margin-top:10px;"></div>
     `;
     document.getElementById('start-form').onsubmit = function(e) {
         e.preventDefault();
         numQuestions = parseInt(document.getElementById('num').value, 10);
+        if (isNaN(numQuestions) || numQuestions < 1 || numQuestions > questions.length) {
+            document.getElementById('error-msg').textContent = 'Por favor, elige un número válido de preguntas.';
+            return;
+        }
         startGame();
     };
 }
@@ -74,12 +58,12 @@ function startGame() {
     scoreEl = document.getElementById('score');
     nextBtn = document.getElementById('next-btn');
     nextBtn.onclick = nextQuestion;
-    showQuestion();
+    setTimeout(showQuestion, 0); // Asegura que el DOM esté listo
 }
 
 function renderGameUI() {
     container.innerHTML = `
-        <h1>Juego de Trivial</h1>
+        <h1></h1>
         <div id="question-container">
             <div id="question">Cargando pregunta...</div>
             <div id="answers"></div>
@@ -146,5 +130,5 @@ function nextQuestion() {
     }
 }
 
-// Iniciar con pantalla de selección
-showStartScreen();
+// Iniciar cargando preguntas
+loadQuestions();
