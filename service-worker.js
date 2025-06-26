@@ -1,5 +1,5 @@
 // Versión del caché
-const CACHE_VERSION = 'v2.6';
+const CACHE_VERSION = 'v2.7';
 const CACHE_NAME = `trivial-${CACHE_VERSION}`;
 
 self.addEventListener('install', event => {
@@ -10,6 +10,7 @@ self.addEventListener('install', event => {
         '/index.html',
         '/style.css',
         '/main.js',
+        '/questions.js',
         '/manifest.json',
         '/icon-192.png',
         '/icon-512.png',
