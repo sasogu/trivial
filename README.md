@@ -16,4 +16,4 @@ Abre el archivo `index.html` en tu navegador para comenzar a jugar.
 - `main.js`: Lógica del juego
 
 ## Personalización
-Puedes modificar las preguntas y respuestas editando el archivo `main.js`.
+Puedes modificar las preguntas y respuestas editando el archivo `questions.js`.
