@@ -1,11 +1,11 @@
 {
-  "name": "Juego de Trivial",
-  "short_name": "Trivial",
+  "name": "Trivial Historia del Budismo",
+  "short_name": "Trivial Budismo",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#2193b0",
   "theme_color": "#2193b0",
-  "description": "Juego de trivial HTML5 con interfaz moderna.",
+  "description": "Juego de trivial HTML5 con interfaz moderna, preguntas relacionadas con las historia del budismo.",
   "icons": [
     {
       "src": "icon-192.png",
