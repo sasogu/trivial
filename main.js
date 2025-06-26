@@ -121,6 +121,20 @@ function nextQuestion() {
         answersEl.innerHTML = '';
         nextBtn.style.display = 'none';
         scoreEl.textContent += ` | Preguntas respondidas: ${selectedQuestions.length}`;
+        // Frase motivadora según el resultado
+        const motivacion = document.createElement('div');
+        motivacion.className = 'motivacion';
+        let porcentaje = Math.round((score / selectedQuestions.length) * 100);
+        if (porcentaje === 100) {
+            motivacion.textContent = '¡Perfecto! Has alcanzado la sabiduría del Buda.';
+        } else if (porcentaje >= 80) {
+            motivacion.textContent = '¡Excelente! Estás en el camino del despertar.';
+        } else if (porcentaje >= 50) {
+            motivacion.textContent = '¡Muy bien! Sigue practicando y profundizando.';
+        } else {
+            motivacion.textContent = 'Cada paso es aprendizaje. ¡Sigue explorando la sabiduría budista!';
+        }
+        scoreEl.parentNode.appendChild(motivacion);
         // Botón para volver a empezar
         const restartBtn = document.createElement('button');
         restartBtn.textContent = 'Jugar de nuevo';
