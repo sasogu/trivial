@@ -124,3 +124,16 @@ body {
   font-size: 1em;
   margin-top: 0.5em;
 }
+
+.header-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+.header-logo img {
+  height: 60px;
+  max-width: 90vw;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(33,147,176,0.13));
+}
