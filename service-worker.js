@@ -1,5 +1,5 @@
 // Versión del caché
-const CACHE_VERSION = 'v2.3';
+const CACHE_VERSION = 'v2.6';
 const CACHE_NAME = `trivial-${CACHE_VERSION}`;
 
 self.addEventListener('install', event => {
@@ -12,7 +12,8 @@ self.addEventListener('install', event => {
         '/main.js',
         '/manifest.json',
         '/icon-192.png',
-        '/icon-512.png'
+        '/icon-512.png',
+        '/logonegro.png' // Añadido el logo al caché
       ]);
     })
   );

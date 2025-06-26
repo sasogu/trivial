@@ -11,29 +11,31 @@
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 </head>
 <body>
-    <div class="container">
-      <div class="header-logo">
-        <img src="logonegro.png" alt="Logo Soto Zen Camino Medio" style="height:60px; margin-bottom: 0.5em;">
+  <div class="header-logo">
+    <img src="logonegro.png" alt="Logo Soto Zen Camino Medio" style="height:60px; margin-bottom: 0.5em;">
+  </div>
+  <h1>Trivial sobre Historia del Budismo</h1>
+  <div class="container">
+    <div id="game-content">
+      <div id="question-container">
+        <div id="question">Cargando pregunta...</div>
+        <div id="answers"></div>
       </div>
-        <h1>Trivial</h1>
-        <div id="question-container">
-            <div id="question">Cargando pregunta...</div>
-            <div id="answers"></div>
-        </div>
-        <div id="score">Puntuación: 0</div>
-        <button id="next-btn">Siguiente</button>
+      <div id="score">Puntuación: 0</div>
+      <button id="next-btn">Siguiente</button>
     </div>
-    <footer class="footer">
-      &copy; <span id="year"></span> Comunidad Soto Zen Camino Medio
-    </footer>
-    <script src="main.js"></script>
-    <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js');
-        });
-      }
-    </script>
-  </body>
+  </div>
+  <footer class="footer">
+    &copy; <span id="year"></span> Comunidad Soto Zen Camino Medio
+  </footer>
+  <script src="main.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
+</body>
 </html>

@@ -1,4 +1,5 @@
 const container = document.querySelector('.container');
+const gameContent = document.getElementById('game-content');
 
 let selectedQuestions = [];
 let numQuestions = 3;
@@ -26,13 +27,10 @@ async function loadQuestions() {
 }
 
 function showStartScreen() {
-    container.innerHTML = `
-        <h1>Explora la sabiduría ancestral del budismo</h1>
+    gameContent.innerHTML = `
         <form id="start-form">
             <label for="num">¿Cuántas preguntas quieres responder? (1-${questions.length})</label>
-    
-            <input type="number" id="num" name="num" min="1" max="${questions.length}" value="${questions.length}" required style="width:60px; margin-left:8px;">
-    
+            <input type="number" id="num" name="num" min="1" max="${questions.length}" value="${questions.length}" required>
             <button type="submit">Comenzar</button>
         </form>
         <div id="error-msg" style="color:red;margin-top:10px;"></div>
@@ -64,8 +62,7 @@ function startGame() {
 }
 
 function renderGameUI() {
-    container.innerHTML = `
-        <h1></h1>
+    gameContent.innerHTML = `
         <div id="question-container">
             <div id="question">Cargando pregunta...</div>
             <div id="answers"></div>
