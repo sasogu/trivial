@@ -30,7 +30,9 @@ function showStartScreen() {
         <h1>Explora la sabiduría ancestral del budismo</h1>
         <form id="start-form">
             <label for="num">¿Cuántas preguntas quieres responder? (1-${questions.length})</label>
+    
             <input type="number" id="num" name="num" min="1" max="${questions.length}" value="${questions.length}" required style="width:60px; margin-left:8px;">
+    
             <button type="submit">Comenzar</button>
         </form>
         <div id="error-msg" style="color:red;margin-top:10px;"></div>

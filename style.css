@@ -77,3 +77,50 @@ body {
   z-index: 100;
   box-shadow: 0 -2px 8px rgba(33,147,176,0.1);
 }
+
+#start-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  margin-top: 1.5em;
+}
+#start-form label {
+  font-size: 1.1em;
+  color: #1a3c4e;
+  margin-bottom: 0.2em;
+}
+#start-form input[type="number"] {
+  padding: 0.5em 0.8em;
+  border: 1.5px solid #2193b0;
+  border-radius: 8px;
+  font-size: 1.1em;
+  width: 80px;
+  outline: none;
+  transition: border 0.2s;
+  box-shadow: 0 2px 8px rgba(33,147,176,0.07);
+}
+#start-form input[type="number"]:focus {
+  border: 1.5px solid #6dd5ed;
+}
+#start-form button[type="submit"] {
+  background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7em 2em;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(33,147,176,0.13);
+  transition: background 0.2s, transform 0.1s;
+}
+#start-form button[type="submit"]:hover {
+  background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
+  transform: translateY(-2px) scale(1.04);
+}
+#start-form #error-msg {
+  color: #e53935;
+  font-size: 1em;
+  margin-top: 0.5em;
+}
