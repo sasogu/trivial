@@ -38,7 +38,7 @@ function showStartScreen() {
             <button type="button" class="quick-btn" data-num="15">15</button>
             <button type="button" class="quick-btn" data-num="20">20</button>
         </div>
-            <input type="number" id="num" name="num" min="1" max="${questions.length}" value="${questions.length}" required>
+            <input type="number" id="num" name="num" min="1" max="${questions.length}" value="0" required>
             <button type="submit">Comenzar</button>
         </form>
         <div id="error-msg" style="color:red;margin-top:10px;"></div>
