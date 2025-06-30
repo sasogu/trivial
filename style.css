@@ -223,3 +223,30 @@ h1 {
   min-width: 90px;
   display: inline-block;
 }
+.quick-select {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7em;
+  margin-bottom: 1.2em;
+  margin-top: 0.5em;
+  font-size: 1.08em;
+  color: #1a3c4e;
+}
+.quick-btn {
+  background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5em 1.2em;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(33,147,176,0.13);
+  transition: background 0.2s, transform 0.1s;
+}
+.quick-btn:hover {
+  background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
+  transform: translateY(-2px) scale(1.04);
+}
