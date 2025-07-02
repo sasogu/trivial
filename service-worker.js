@@ -1,5 +1,5 @@
 // Versión del caché
-const CACHE_VERSION = 'v2.7.28'; // Actualiza la versión si cambias los archivos del caché
+const CACHE_VERSION = 'v2.7.29'; // Actualiza la versión si cambias los archivos del caché
 const CACHE_NAME = `trivial-${CACHE_VERSION}`;
 
 self.addEventListener('install', event => {
