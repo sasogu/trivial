@@ -6,6 +6,7 @@ let numQuestions = 3;
 let questionEl, answersEl, scoreEl, nextBtn;
 let currentQuestion = 0;
 let score = 0;
+let selectedLevel = 'facil'; // Nivel por defecto
 
 // Cargar preguntas desde questions.js
 let questions = [];
@@ -28,6 +29,12 @@ async function loadQuestions() {
 
 function showStartScreen() {
     gameContent.innerHTML = `
+        <div class="level-select">
+            <span>Selecciona nivel:</span>
+            <button type="button" class="level-btn" data-level="facil">Fácil</button>
+            <button type="button" class="level-btn" data-level="intermedio">Intermedio</button>
+            <button type="button" class="level-btn" data-level="dificil">Difícil</button>
+        </div>
         <div class="quick-select">
             <span>Elige número de preguntas:</span>
             <button type="button" class="quick-btn" data-num="5">5</button>
@@ -43,6 +50,23 @@ function showStartScreen() {
         <div id="error-msg" style="color:red;margin-top:10px;"></div>
         <div id="ranking-inicio"></div>
     `;
+    // Selección de nivel
+    document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.onclick = function() {
+            selectedLevel = this.dataset.level;
+            document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            // Actualizar el input max
+            const filtered = questions.filter(q => q.level === selectedLevel);
+            const max = filtered.length || 1;
+            const input = document.getElementById('num');
+            input.max = max;
+            if (parseInt(input.value, 10) > max) input.value = max;
+        };
+    });
+    // Marcar el nivel por defecto
+    document.querySelector('.level-btn[data-level="' + selectedLevel + '"]').classList.add('active');
+    // Listeners para los botones rápidos
     document.querySelectorAll('.quick-btn').forEach(btn => {
         btn.onclick = function() {
             numQuestions = parseInt(this.dataset.num, 10);
@@ -80,8 +104,19 @@ async function mostrarRankingInicio() {
 }
 
 function startGame() {
-    // Selecciona preguntas aleatorias
-    selectedQuestions = questions.slice().sort(() => Math.random() - 0.5).slice(0, numQuestions);
+    // Normaliza el valor del nivel para evitar problemas con tildes o mayúsculas
+    const normalizedLevel = selectedLevel.normalize('NFD').replace(/[-]/g, '').toLowerCase();
+    const filtered = questions.filter(q => {
+        if (!q.level) return false;
+        return q.level.normalize('NFD').replace(/[-]/g, '').toLowerCase() === normalizedLevel;
+    });
+    const maxQuestions = filtered.length;
+    if (maxQuestions === 0) {
+        gameContent.innerHTML = '<div style="color:red;text-align:center;">No hay preguntas para este nivel.</div>';
+        return;
+    }
+    if (numQuestions > maxQuestions) numQuestions = maxQuestions;
+    selectedQuestions = filtered.slice().sort(() => Math.random() - 0.5).slice(0, numQuestions);
     currentQuestion = 0;
     score = 0;
     renderGameUI();
@@ -122,10 +157,18 @@ function showQuestion() {
     const q = selectedQuestions[currentQuestion];
     questionEl.textContent = q.question;
     answersEl.innerHTML = '';
-    q.answers.forEach((answer, idx) => {
+    // Barajar las respuestas antes de mostrarlas
+    const respuestas = q.answers
+        .map((a, i) => ({ text: a, idx: i }))
+        .filter(a => a.text && a.text.trim() !== '');
+    for (let i = respuestas.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [respuestas[i], respuestas[j]] = [respuestas[j], respuestas[i]];
+    }
+    respuestas.forEach((answerObj) => {
         const btn = document.createElement('button');
-        btn.textContent = answer;
-        btn.onclick = () => selectAnswer(idx);
+        btn.textContent = answerObj.text;
+        btn.onclick = () => selectAnswer(answerObj.idx);
         answersEl.appendChild(btn);
     });
     nextBtn.style.display = 'none';
