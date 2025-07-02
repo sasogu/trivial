@@ -30,7 +30,7 @@ function showStartScreen() {
     gameContent.innerHTML = `
        
         <form id="start-form">
-            <label for="num">¿Cuántas preguntas quieres responder? (1-${questions.length})</label>
+            <label for="num">¿Cuántas preguntas quieres responder? </label>
              <div class="quick-select">
           
             <button type="button" class="quick-btn" data-num="5">5</button>
