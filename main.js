@@ -28,23 +28,21 @@ async function loadQuestions() {
 
 function showStartScreen() {
     gameContent.innerHTML = `
-       
-        <form id="start-form">
-            <label for="num">¿Cuántas preguntas quieres responder? </label>
-             <div class="quick-select">
-          
+        <div class="quick-select">
+            <span>Elige número de preguntas:</span>
             <button type="button" class="quick-btn" data-num="5">5</button>
             <button type="button" class="quick-btn" data-num="10">10</button>
             <button type="button" class="quick-btn" data-num="15">15</button>
             <button type="button" class="quick-btn" data-num="20">20</button>
         </div>
-            <input type="number" id="num" name="num" min="1" max="${questions.length}" value="0" required>
+        <form id="start-form">
+            <label for="num">¿Cuántas preguntas quieres responder? </label>
+            <input type="number" id="num" name="num" min="1" max="${questions.length}" value="${questions.length}" required>
             <button type="submit">Comenzar</button>
         </form>
         <div id="error-msg" style="color:red;margin-top:10px;"></div>
         <div id="ranking-inicio"></div>
     `;
-    // Listeners para los botones rápidos
     document.querySelectorAll('.quick-btn').forEach(btn => {
         btn.onclick = function() {
             numQuestions = parseInt(this.dataset.num, 10);
