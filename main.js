@@ -42,11 +42,6 @@ function showStartScreen() {
             <button type="button" class="quick-btn" data-num="15">15</button>
             <button type="button" class="quick-btn" data-num="20">20</button>
         </div>
-        <form id="start-form">
-            <label for="num">¿Cuántas preguntas quieres responder? </label>
-            <input type="number" id="num" name="num" min="1" max="${questions.length}" value="${questions.length}" required>
-            <button type="submit">Comenzar</button>
-        </form>
         <div id="error-msg" style="color:red;margin-top:10px;"></div>
         <div id="ranking-inicio"></div>
     `;
@@ -56,33 +51,27 @@ function showStartScreen() {
             selectedLevel = this.dataset.level;
             document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            // Actualizar el input max
-            const filtered = questions.filter(q => q.level === selectedLevel);
-            const max = filtered.length || 1;
-            const input = document.getElementById('num');
-            input.max = max;
-            if (parseInt(input.value, 10) > max) input.value = max;
         };
     });
-    // Marcar el nivel por defecto
     document.querySelector('.level-btn[data-level="' + selectedLevel + '"]').classList.add('active');
     // Listeners para los botones rápidos
     document.querySelectorAll('.quick-btn').forEach(btn => {
         btn.onclick = function() {
-            numQuestions = parseInt(this.dataset.num, 10);
-            if (numQuestions > questions.length) numQuestions = questions.length;
+            // Filtrar preguntas por nivel
+            const filtered = questions.filter(q => {
+                if (!q.level) return false;
+                return q.level.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === selectedLevel.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+            });
+            let n = parseInt(this.dataset.num, 10);
+            if (n > filtered.length) n = filtered.length;
+            numQuestions = n;
+            if (n < 1) {
+                document.getElementById('error-msg').textContent = 'No hay suficientes preguntas para este nivel.';
+                return;
+            }
             startGame();
         };
     });
-    document.getElementById('start-form').onsubmit = function(e) {
-        e.preventDefault();
-        numQuestions = parseInt(document.getElementById('num').value, 10);
-        if (isNaN(numQuestions) || numQuestions < 1 || numQuestions > questions.length) {
-            document.getElementById('error-msg').textContent = 'Por favor, elige un número válido de preguntas.';
-            return;
-        }
-        startGame();
-    };
     // Mostrar ranking automáticamente al cargar la pantalla inicial
     mostrarRankingInicio();
 }
@@ -157,18 +146,20 @@ function showQuestion() {
     const q = selectedQuestions[currentQuestion];
     questionEl.textContent = q.question;
     answersEl.innerHTML = '';
-    // Barajar las respuestas antes de mostrarlas
+    // Barajar las respuestas antes de mostrarlas y guardar el nuevo índice correcto
     const respuestas = q.answers
-        .map((a, i) => ({ text: a, idx: i }))
+        .map((a, i) => ({ text: a, originalIdx: i }))
         .filter(a => a.text && a.text.trim() !== '');
     for (let i = respuestas.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [respuestas[i], respuestas[j]] = [respuestas[j], respuestas[i]];
     }
-    respuestas.forEach((answerObj) => {
+    // Guardar el índice de la respuesta correcta tras barajar
+    q._shuffledCorrect = respuestas.findIndex(r => r.originalIdx === q.correct);
+    respuestas.forEach((answerObj, idx) => {
         const btn = document.createElement('button');
         btn.textContent = answerObj.text;
-        btn.onclick = () => selectAnswer(answerObj.idx);
+        btn.onclick = () => selectAnswer(idx);
         answersEl.appendChild(btn);
     });
     nextBtn.style.display = 'none';
@@ -176,13 +167,13 @@ function showQuestion() {
 
 function selectAnswer(idx) {
     const q = selectedQuestions[currentQuestion];
-    if (idx === q.correct) {
+    if (idx === q._shuffledCorrect) {
         score++;
         scoreEl.textContent = `Puntuación: ${score}`;
     }
     Array.from(answersEl.children).forEach((btn, i) => {
         btn.disabled = true;
-        btn.style.background = i === q.correct ? '#4caf50' : '#f44336';
+        btn.style.background = i === q._shuffledCorrect ? '#4caf50' : '#f44336';
         btn.style.color = '#fff';
     });
     nextBtn.style.display = 'inline-block';
