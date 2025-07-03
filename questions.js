@@ -1,5 +1,5 @@
-export const questions = [
-    {
+ export const questions = [
+     {
         question: "?La escuela Mâdhyamika defiende:",
         answers: [
             "la doctrina de la trasmigración de las almas",
@@ -3988,7 +3988,7 @@ export const questions = [
         correct: 1,
         level: "fácil"
     },
-    {
+ {
         question: "Proporcionar las condiciones ideales para la meditación y la renuncia era la finalidad del",
         answers: [
             "Skandraka.",
@@ -6339,4 +6339,5 @@ export const questions = [
         correct: 0,
         level: "difícil"
     },
+       
 ];

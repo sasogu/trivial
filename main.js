@@ -48,7 +48,8 @@ function showStartScreen() {
     // Selección de nivel
     document.querySelectorAll('.level-btn').forEach(btn => {
         btn.onclick = function() {
-            selectedLevel = this.dataset.level;
+            // Normaliza el valor del botón para evitar problemas de tildes
+            selectedLevel = this.dataset.level.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
             document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
         };
@@ -60,7 +61,7 @@ function showStartScreen() {
             // Filtrar preguntas por nivel
             const filtered = questions.filter(q => {
                 if (!q.level) return false;
-                return q.level.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === selectedLevel.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                return q.level.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === selectedLevel;
             });
             let n = parseInt(this.dataset.num, 10);
             if (n > filtered.length) n = filtered.length;
@@ -94,10 +95,10 @@ async function mostrarRankingInicio() {
 
 function startGame() {
     // Normaliza el valor del nivel para evitar problemas con tildes o mayúsculas
-    const normalizedLevel = selectedLevel.normalize('NFD').replace(/[-]/g, '').toLowerCase();
+    const normalizedLevel = selectedLevel;
     const filtered = questions.filter(q => {
         if (!q.level) return false;
-        return q.level.normalize('NFD').replace(/[-]/g, '').toLowerCase() === normalizedLevel;
+        return q.level.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === normalizedLevel;
     });
     const maxQuestions = filtered.length;
     if (maxQuestions === 0) {
