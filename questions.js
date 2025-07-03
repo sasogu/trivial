@@ -1,6 +1,6 @@
 export const questions = [
      {
-        question: "?La escuela Mâdhyamika defiende:",
+        question: "La escuela Mâdhyamika defiende:",
         answers: [
             "la doctrina de la trasmigración de las almas",
             "no existe renacimiento del sujeto ni del alma",
@@ -12,7 +12,7 @@ export const questions = [
         level: "fácil"
     },
     {
-        question: "?El canon pali se compiló:",
+        question: "El canon pali se compiló:",
         answers: [
             "por Ananda",
             "por Asoka",
@@ -4061,7 +4061,7 @@ export const questions = [
         level: "intermedio"
     },
     {
-        question: "El bodisattva muestra con su actitud",
+        question: "El bodhisattva muestra con su actitud",
         answers: [
             "su determinación por liberar a muchos seres",
             "la identificación de la vacuidad con la nada",
@@ -4073,7 +4073,7 @@ export const questions = [
         level: "intermedio"
     },
     {
-        question: "?Las escrituras Hinayana están recogidas:",
+        question: "Las escrituras Hinayana están recogidas:",
         answers: [
             "en el Prajñaparamita",
             "en el Samadhiraja",
@@ -4349,7 +4349,7 @@ export const questions = [
         level: "intermedio"
     },
     {
-        question: "¿En cuál de los siguientes tratados se exponen las tierras del bodisattva?",
+        question: "¿En cuál de los siguientes tratados se exponen las tierras del bodhisattva?",
         answers: [
             "Dasa Bhûmika Sutra",
             "El Sutra de la Compasión",
