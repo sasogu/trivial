@@ -4,6 +4,10 @@ body {
     font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
     background: linear-gradient(120deg, #f7fafc 0%, #e3f0ff 100%);
     min-height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
 }
 
 .header-logo {
@@ -28,6 +32,25 @@ h1 {
     font-size: 2.1em;
     color: #1a3c4e;
     letter-spacing: 1px;
+    line-height: 1.2;
+    padding: 0 0.5em;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8em;
+        margin-bottom: 1em;
+        padding: 0 0.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.6em;
+        margin-bottom: 0.8em;
+        padding: 0 0.2em;
+        letter-spacing: 0.5px;
+    }
 }
 
 .container {
@@ -36,8 +59,83 @@ h1 {
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 4px 24px rgba(33,147,176,0.10);
-    padding: 2em 1.5em 3.5em 1.5em;
+    padding: 1.5em 1.2em 3.5em 1.2em;
     margin-bottom: 4.5em;
+}
+
+/* Media queries para pantallas pequeñas */
+@media (max-width: 768px) {
+    .container {
+        margin: 0 0.8em 4.5em 0.8em;
+        padding: 1.2em 1em 3.5em 1em;
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 0 0.5em 4.5em 0.5em;
+        padding: 1em 0.8em 3.5em 0.8em;
+        border-radius: 8px;
+    }
+}
+
+/* Mejoras específicas para pantallas de escritorio */
+@media (min-width: 769px) {
+    .container {
+        margin: 0 auto 4.5em auto;
+        padding: 2em 1.5em 3.5em 1.5em;
+    }
+    
+    #question {
+        text-align: center;
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    #score {
+        text-align: center;
+        font-size: 1.3em;
+    }
+    
+    #next-btn {
+        display: block;
+        margin: 1.5rem auto 0 auto;
+        padding: 1rem 2rem;
+    }
+    
+    .level-select,
+    .quick-select {
+        text-align: center;
+    }
+    
+    /* Centrar mejor los botones de respuesta en desktop */
+    #answers {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    #answers button {
+        text-align: center;
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* Pantallas muy grandes */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 520px;
+        padding: 2.5em 2em 4em 2em;
+    }
+    
+    h1 {
+        font-size: 2.3em;
+    }
+    
+    #question {
+        font-size: 1.4rem;
+    }
 }
 
 #question {
@@ -49,19 +147,44 @@ h1 {
     display: block;
     width: 100%;
     margin: 0.5rem 0;
-    padding: 0.75rem;
+    padding: 1rem 0.75rem;
     border: none;
     border-radius: 8px;
     background: #2193b0;
     color: #fff;
     font-size: 1rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.1s;
+    min-height: 44px; /* Tamaño mínimo para touch */
+    text-align: left;
+    line-height: 1.3;
+    word-wrap: break-word;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-#answers button:hover {
+#answers button:hover,
+#answers button:focus {
     background: #6dd5ed;
     color: #222;
+    transform: translateY(-1px);
+    outline: 2px solid #2193b0;
+    outline-offset: 2px;
+}
+
+#answers button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+    #answers button {
+        padding: 1.2rem 1rem;
+        margin: 0.6rem 0;
+        font-size: 0.95rem;
+        min-height: 48px;
+    }
 }
 
 #score {
@@ -144,6 +267,14 @@ h1 {
   margin-bottom: 0.5em;
   display: inline-block;
 }
+
+/* Centrar botón "Jugar de nuevo" al final del juego */
+.styled-btn {
+    display: block;
+    margin: 1.5rem auto 0 auto;
+    text-align: center;
+}
+
 .styled-btn:hover, #start-form button[type="submit"]:hover, #next-btn:hover, #answers button:hover {
   background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
   transform: translateY(-2px) scale(1.04);
@@ -224,62 +355,360 @@ h1 {
   display: inline-block;
 }
 .quick-select {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7em;
-  margin-bottom: 1.2em;
-  margin-top: 0.5em;
-  font-size: 1.08em;
-  color: #1a3c4e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8em;
+    margin-bottom: 1.2em;
+    margin-top: 0.5em;
+    font-size: 1.08em;
+    color: #1a3c4e;
+}
+
+.quick-select span {
+    text-align: center;
+    margin-bottom: 0.3em;
+    font-weight: 500;
+}
+
+.quick-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    justify-content: center;
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .quick-select {
+        gap: 0.6em;
+        font-size: 1em;
+    }
+    
+    .quick-buttons {
+        gap: 0.4em;
+    }
 }
 .quick-btn {
   background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 0.5em 1.2em;
+  padding: 0.7em 1.5em;
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(33,147,176,0.13);
   transition: background 0.2s, transform 0.1s;
+  min-width: 60px;
+  min-height: 44px;
+  flex: 1;
+  max-width: 80px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.quick-btn:hover {
+
+.quick-btn:hover,
+.quick-btn:focus {
   background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
   transform: translateY(-2px) scale(1.04);
+  outline: 2px solid #2193b0;
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    .quick-btn {
+        padding: 0.8em 1.2em;
+        font-size: 0.95em;
+        min-height: 48px;
+        max-width: 70px;
+    }
 }
 .level-select {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.7em;
+  gap: 0.8em;
   margin-bottom: 1.2em;
   margin-top: 0.5em;
   font-size: 1.08em;
   color: #1a3c4e;
+}
+
+.level-select span {
+  text-align: center;
+  margin-bottom: 0.3em;
+  font-weight: 500;
+}
+
+.level-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+    .level-select {
+        gap: 0.6em;
+        font-size: 1em;
+    }
+    
+    .level-buttons {
+        gap: 0.4em;
+    }
 }
 .level-btn {
   background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 0.5em 1.2em;
+  padding: 0.7em 1.5em;
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(33,147,176,0.13);
   transition: background 0.2s, transform 0.1s;
+  min-height: 44px;
+  flex: 1;
+  min-width: 80px;
+  max-width: 120px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .level-btn.active, .level-btn:focus {
   background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
   color: #fff;
   outline: 2px solid #2193b0;
+  outline-offset: 2px;
   transform: translateY(-2px) scale(1.04);
 }
+
 .level-btn:hover {
   background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
   transform: translateY(-2px) scale(1.04);
+}
+
+@media (max-width: 480px) {
+    .level-btn {
+        padding: 0.8em 1.2em;
+        font-size: 0.9em;
+        min-height: 48px;
+        min-width: 70px;
+        max-width: 100px;
+    }
+}
+
+/* Mejoras adicionales para dispositivos móviles */
+
+/* Evitar zoom en inputs */
+input[type="text"], input[type="number"], input[type="email"], input[type="password"], select, textarea {
+    font-size: 16px !important;
+}
+
+/* Mejorar el área de toque */
+button, input[type="button"], input[type="submit"], .quick-btn, .level-btn {
+    -webkit-tap-highlight-color: rgba(33, 147, 176, 0.3);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Indicador visual para elementos tocables */
+.touchable {
+    position: relative;
+}
+
+.touchable::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+}
+
+.touchable:active::after {
+    opacity: 1;
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Mejorar legibilidad en pantallas pequeñas */
+@media (max-width: 360px) {
+    .container {
+        margin: 0 0.3em 4.5em 0.3em;
+        padding: 0.8em 0.6em 3.5em 0.6em;
+    }
+    
+    h1 {
+        font-size: 1.4em;
+    }
+    
+    #question {
+        font-size: 1.1em;
+        line-height: 1.4;
+    }
+    
+    .quick-btn {
+        padding: 0.7em 1em;
+        font-size: 0.9em;
+        min-width: 55px;
+        max-width: 65px;
+    }
+    
+    .level-btn {
+        padding: 0.7em 1em;
+        font-size: 0.85em;
+        min-width: 65px;
+        max-width: 90px;
+    }
+}
+
+/* Orientación landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header-logo {
+        margin-top: 1em;
+        margin-bottom: 0.3em;
+    }
+    
+    .header-logo img {
+        height: 40px;
+    }
+    
+    h1 {
+        font-size: 1.3em;
+        margin-bottom: 0.5em;
+    }
+    
+    .container {
+        padding: 1em 1.2em 2.5em 1.2em;
+        margin-bottom: 3em;
+    }
+}
+
+/* Animaciones suaves para móviles */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(120deg, #1a202c 0%, #2d3748 100%);
+    }
+    
+    .container {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+    
+    h1 {
+        color: #e2e8f0;
+    }
+    
+    #question {
+        color: #e2e8f0;
+    }
+    
+    .ranking-lista {
+        background: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .ranking-lista li {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+}
+
+/* Estilos específicos para dispositivos móviles */
+.mobile-device {
+    -webkit-overflow-scrolling: touch;
+}
+
+.mobile-device .container {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.mobile-device button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.mobile-device #answers button {
+    position: relative;
+    overflow: hidden;
+}
+
+.mobile-device #answers button.answered {
+    animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #2193b0;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Centrar botón "Jugar de nuevo" al final del juego */
+.restart-btn {
+    display: block !important;
+    margin: 1.5rem auto 0 auto !important;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .restart-btn {
+        margin: 1.2rem auto 0 auto !important;
+    }
 }

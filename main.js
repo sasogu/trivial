@@ -31,18 +31,22 @@ function showStartScreen() {
     gameContent.innerHTML = `
         <div class="level-select">
             <span>Selecciona nivel:</span>
-            <button type="button" class="level-btn" data-level="facil">Fácil</button>
-            <button type="button" class="level-btn" data-level="intermedio">Intermedio</button>
-            <button type="button" class="level-btn" data-level="dificil">Difícil</button>
+            <div class="level-buttons">
+                <button type="button" class="level-btn" data-level="facil">Fácil</button>
+                <button type="button" class="level-btn" data-level="intermedio">Intermedio</button>
+                <button type="button" class="level-btn" data-level="dificil">Difícil</button>
+            </div>
         </div>
         <div class="quick-select">
             <span>Elige número de preguntas:</span>
-            <button type="button" class="quick-btn" data-num="5">5</button>
-            <button type="button" class="quick-btn" data-num="10">10</button>
-            <button type="button" class="quick-btn" data-num="15">15</button>
-            <button type="button" class="quick-btn" data-num="20">20</button>
+            <div class="quick-buttons">
+                <button type="button" class="quick-btn" data-num="5">5</button>
+                <button type="button" class="quick-btn" data-num="10">10</button>
+                <button type="button" class="quick-btn" data-num="15">15</button>
+                <button type="button" class="quick-btn" data-num="20">20</button>
+            </div>
         </div>
-        <div id="error-msg" style="color:red;margin-top:10px;"></div>
+        <div id="error-msg" style="color:red;margin-top:10px;text-align:center;"></div>
         <div id="ranking-inicio"></div>
     `;
     // Selección de nivel
@@ -171,6 +175,9 @@ function selectAnswer(idx) {
     if (idx === q._shuffledCorrect) {
         score++;
         scoreEl.textContent = `Puntuación: ${score}`;
+        vibrateSuccess(); // Feedback táctil por respuesta correcta
+    } else {
+        vibrateError(); // Feedback táctil por respuesta incorrecta
     }
     Array.from(answersEl.children).forEach((btn, i) => {
         btn.disabled = true;
@@ -252,7 +259,7 @@ async function nextQuestion() {
         const restartBtn = document.createElement('button');
         restartBtn.textContent = 'Jugar de nuevo';
         restartBtn.onclick = showStartScreen;
-        restartBtn.className = 'styled-btn';
+        restartBtn.className = 'styled-btn restart-btn';
         scoreEl.parentNode.appendChild(restartBtn);
     }
 }
@@ -298,3 +305,33 @@ obtenerRanking(10).then(ranking => {
 }).catch(e => {
   console.error('Error manual ranking:', e);
 });
+
+// Funciones de feedback táctil para móviles
+function vibrateOnTouch(duration = 50) {
+    if (navigator.vibrate) {
+        navigator.vibrate(duration);
+    }
+}
+
+function vibrateSuccess() {
+    if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 100]);
+    }
+}
+
+function vibrateError() {
+    if (navigator.vibrate) {
+        navigator.vibrate([300, 100, 300]);
+    }
+}
+
+// Detectar dispositivo móvil
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+}
+
+// Agregar clase CSS para dispositivos móviles
+if (isMobileDevice()) {
+    document.body.classList.add('mobile-device');
+}
