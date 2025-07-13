@@ -1,5 +1,5 @@
 // Versión del caché
-const CACHE_VERSION = 'v2.9.5'; // Actualizada con centrado de texto en botones
+const CACHE_VERSION = 'v2.9.6'; // Actualizada con centrado de texto en botones
 const CACHE_NAME = `trivial-${CACHE_VERSION}`;
 
 // Archivos esenciales que siempre deben estar en caché
