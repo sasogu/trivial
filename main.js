@@ -161,6 +161,8 @@ function showQuestion() {
     }
     // Guardar el índice de la respuesta correcta tras barajar
     q._shuffledCorrect = respuestas.findIndex(r => r.originalIdx === q.correct);
+    // Guardar el último orden barajado para feedback
+    q._lastShuffled = respuestas;
     respuestas.forEach((answerObj, idx) => {
         const btn = document.createElement('button');
         btn.textContent = answerObj.text;
@@ -462,13 +464,46 @@ function showUpdateNotification() {
     e.preventDefault();
     const mensaje = textarea.value.trim();
     if (!mensaje) return;
-    let asunto = encodeURIComponent('Sugerencia/Reporte Trivial Budismo');
-    let cuerpo = encodeURIComponent(mensaje);
+    let asunto = 'Sugerencia/Reporte Trivial Budismo';
+    let cuerpo = '';
+    let pregunta = '';
+    let respuestas = [];
+    // Buscar la pregunta y respuestas actuales si existen
     if (lastQuestion) {
-      cuerpo = encodeURIComponent('Pregunta actual: ' + lastQuestion + '\n\n' + mensaje);
+      pregunta = lastQuestion;
+      // Buscar en selectedQuestions la pregunta actual
+      let qObj = null;
+      let respuestasMostradas = [];
+      if (window.selectedQuestions && Array.isArray(window.selectedQuestions)) {
+        qObj = window.selectedQuestions.find(q => q.question === lastQuestion);
+        // Intentar obtener las respuestas barajadas del DOM
+        const answersDiv = document.getElementById('answers');
+        if (answersDiv) {
+          respuestasMostradas = Array.from(answersDiv.children).map(btn => btn.textContent);
+        }
+      }
+      if (!qObj && window.questions && Array.isArray(window.questions)) {
+        qObj = window.questions.find(q => q.question === lastQuestion);
+      }
+      // Si hay respuestas mostradas en pantalla, usarlas; si no, usar las del objeto pregunta
+      if (respuestasMostradas.length) {
+        respuestas = respuestasMostradas;
+      } else if (qObj && Array.isArray(qObj.answers)) {
+        respuestas = qObj.answers;
+      }
+      asunto += ' - ' + pregunta;
+      cuerpo += 'Pregunta actual: ' + pregunta + '\n';
+      if (respuestas.length) {
+        cuerpo += '\nRespuestas mostradas al usuario:\n';
+        respuestas.forEach((r, i) => {
+          cuerpo += `  ${i + 1}. ${r}\n`;
+        });
+      }
+      cuerpo += '\n';
     }
+    cuerpo += mensaje;
     const mail = 'sensei@daizansoriano.com'; // <-- CAMBIA AQUÍ POR TU EMAIL REAL
-    window.open(`mailto:${mail}?subject=${asunto}&body=${cuerpo}`);
+    window.open(`mailto:${mail}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`);
     modal.style.display = 'none';
   });
 })();
