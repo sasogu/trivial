@@ -1,5 +1,5 @@
 // Versión del caché
-const CACHE_VERSION = 'v2.9.63'; // Actualizada con logo automático para modo oscuro
+const CACHE_VERSION = 'v2.9.65'; // Actualizada con logo automático para modo oscuro
 const CACHE_NAME = `trivial-${CACHE_VERSION}`;
 
 // Archivos esenciales que siempre deben estar en caché

@@ -417,3 +417,58 @@ function showUpdateNotification() {
     
     document.body.appendChild(notification);
 }
+
+// --- Feedback flotante ---
+(function() {
+  const btn = document.getElementById('feedback-btn');
+  const modal = document.getElementById('feedback-modal');
+  const close = document.getElementById('feedback-close');
+  const form = document.getElementById('feedback-form');
+  const textarea = document.getElementById('feedback-msg');
+  let lastQuestion = '';
+
+  // Detectar pregunta actual si existe
+  function getCurrentQuestion() {
+    const q = document.getElementById('question');
+    if (q && q.textContent && q.textContent.trim() && !q.textContent.includes('Cargando')) {
+      return q.textContent.trim();
+    }
+    return '';
+  }
+
+  // Abrir modal
+  btn.addEventListener('click', () => {
+    modal.style.display = 'flex';
+    textarea.value = '';
+    lastQuestion = getCurrentQuestion();
+    if (lastQuestion) {
+      textarea.placeholder = 'Escribe aquí tu mensaje sobre la pregunta actual...';
+    } else {
+      textarea.placeholder = 'Escribe aquí tu sugerencia o error...';
+    }
+    setTimeout(() => textarea.focus(), 200);
+  });
+
+  // Cerrar modal
+  close.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+  modal.addEventListener('click', e => {
+    if (e.target === modal) modal.style.display = 'none';
+  });
+
+  // Enviar sugerencia por mailto
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const mensaje = textarea.value.trim();
+    if (!mensaje) return;
+    let asunto = encodeURIComponent('Sugerencia/Reporte Trivial Budismo');
+    let cuerpo = encodeURIComponent(mensaje);
+    if (lastQuestion) {
+      cuerpo = encodeURIComponent('Pregunta actual: ' + lastQuestion + '\n\n' + mensaje);
+    }
+    const mail = 'sensei@daizansoriano.com'; // <-- CAMBIA AQUÍ POR TU EMAIL REAL
+    window.open(`mailto:${mail}?subject=${asunto}&body=${cuerpo}`);
+    modal.style.display = 'none';
+  });
+})();

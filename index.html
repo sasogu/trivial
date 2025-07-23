@@ -40,6 +40,25 @@
   <footer class="footer">
     &copy; <span id="year"></span> <a href="https://caminomedio.org" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Comunidad Soto Zen Camino Medio v2.9.63</a>
   </footer>
+
+  <!-- Botón flotante para sugerencias -->
+  <button id="feedback-btn" title="Reportar error o sugerencia">
+    💡 Sugerencias / Errores
+  </button>
+
+  <!-- Modal de feedback -->
+  <div id="feedback-modal" class="feedback-modal" style="display:none;">
+    <div class="feedback-modal-content">
+      <span id="feedback-close" class="feedback-close" title="Cerrar">&times;</span>
+      <h2>¿Has detectado un error o tienes una propuesta?</h2>
+      <form id="feedback-form">
+        <label for="feedback-msg">Cuéntanos tu sugerencia o el error detectado:</label>
+        <textarea id="feedback-msg" required placeholder="Escribe aquí tu mensaje..." rows="4"></textarea>
+        <button type="submit">Enviar</button>
+        <div id="feedback-info" class="feedback-info">Se incluirá la pregunta actual si estás en una partida.</div>
+      </form>
+    </div>
+  </div>
   <script type="module" src="main.js?v=2.9.63"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
