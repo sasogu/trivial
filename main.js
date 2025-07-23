@@ -290,12 +290,22 @@ async function obtenerRanking(top = 10) {
             arr.push(val);
         }
     });
-    // Ordena por puntuación descendente y, en caso de empate, por fecha más reciente
-    arr.sort((a, b) => {
+    // Filtrar para que solo quede la mejor puntuación por nombre
+    const mejoresPorNombre = {};
+    arr.forEach(item => {
+        const nombre = item.nombre.trim().toLowerCase();
+        if (!mejoresPorNombre[nombre] || item.puntuacion > mejoresPorNombre[nombre].puntuacion ||
+            (item.puntuacion === mejoresPorNombre[nombre].puntuacion && item.fecha > mejoresPorNombre[nombre].fecha)) {
+            mejoresPorNombre[nombre] = item;
+        }
+    });
+    // Convertir a array y ordenar por puntuación descendente y, en caso de empate, por fecha más reciente
+    const filtrado = Object.values(mejoresPorNombre);
+    filtrado.sort((a, b) => {
         if (b.puntuacion !== a.puntuacion) return b.puntuacion - a.puntuacion;
         return b.fecha - a.fecha;
     });
-    return arr.slice(0, top);
+    return filtrado.slice(0, top);
 }
 
 // Iniciar cargando preguntas
