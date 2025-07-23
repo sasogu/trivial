@@ -8,8 +8,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Trivial Budismo">
     <meta name="format-detection" content="telephone=no">
+    
+    <!-- Forzar actualización - prevenir caché del navegador -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>Explora la sabiduría ancestral del budismo</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2.9.63">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2193b0">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -17,7 +23,7 @@
 </head>
 <body>
   <div class="header-logo">
-    <img src="logonegro.png" alt="Logo Soto Zen Camino Medio" style="height:60px; margin-bottom: 0.5em;">
+    <img id="main-logo" src="logonegro.png" alt="Logo Soto Zen Camino Medio" style="height:60px; margin-bottom: 0.5em;">
   </div>
   <h1>¿Cuánto sabes de Budismo?</h1>
   <div class="container">
@@ -32,16 +38,13 @@
   </div>
   
   <footer class="footer">
-    &copy; <span id="year"></span> <a href="https://caminomedio.org" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Comunidad Soto Zen Camino Medio v2.9.61</a>
+    &copy; <span id="year"></span> <a href="https://caminomedio.org" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Comunidad Soto Zen Camino Medio v2.9.63</a>
   </footer>
-  <script type="module" src="main.js"></script>
+  <script type="module" src="main.js?v=2.9.63"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js');
-      });
-    }
+    // Service Worker será manejado por main.js
+  </script>
     
   </script>
  

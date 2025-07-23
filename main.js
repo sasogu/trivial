@@ -335,3 +335,85 @@ function isMobileDevice() {
 if (isMobileDevice()) {
     document.body.classList.add('mobile-device');
 }
+
+// Service Worker para actualización automática
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('SW registrado con éxito:', registration);
+                
+                // Escuchar actualizaciones del service worker
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            console.log('Nueva versión del SW disponible');
+                            // Mostrar notificación de actualización al usuario
+                            showUpdateNotification();
+                        }
+                    });
+                });
+            })
+            .catch(error => console.log('SW falló al registrarse:', error));
+        
+        // Escuchar mensajes del service worker
+        navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data.type === 'SW_UPDATED') {
+                console.log('Service Worker actualizado:', event.data.version);
+                showUpdateNotification();
+            }
+        });
+    });
+}
+
+function showUpdateNotification() {
+    // Crear notificación discreta de actualización
+    if (document.getElementById('update-notification')) return; // Evitar duplicados
+    
+    const notification = document.createElement('div');
+    notification.id = 'update-notification';
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+        color: white;
+        padding: 12px 16px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 10000;
+        font-size: 14px;
+        max-width: 300px;
+        cursor: pointer;
+        animation: slideIn 0.3s ease-out;
+    `;
+    notification.innerHTML = `
+        <div style="font-weight: bold; margin-bottom: 4px;">📱 Nueva versión disponible</div>
+        <div style="font-size: 12px; opacity: 0.9;">Toca para actualizar</div>
+    `;
+    
+    // Agregar animación CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    notification.onclick = () => {
+        window.location.reload(true); // Forzar recarga completa
+    };
+    
+    // Auto-ocultar después de 8 segundos
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.style.animation = 'slideIn 0.3s ease-out reverse';
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, 8000);
+    
+    document.body.appendChild(notification);
+}

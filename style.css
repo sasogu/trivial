@@ -627,6 +627,11 @@ html {
 
 /* Dark mode support - Mejorado para mejor legibilidad */
 @media (prefers-color-scheme: dark) {
+    /* Cambiar logo automáticamente en modo oscuro */
+    #main-logo {
+        content: url('logoblanco.png');
+    }
+    
     body {
         background: linear-gradient(120deg, #0d1117 0%, #1a1e29 100%);
     }
