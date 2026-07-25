@@ -1,5 +1,5 @@
 // Versión del caché
-const CACHE_VERSION = 'v2.9.69'; // Corregidas rutas absolutas rotas (el sitio vive en /trivial/, no en la raíz)
+const CACHE_VERSION = 'v2.9.70'; // Rediseño visual: jerarquía de botones, barra de progreso, corrección de solape con el pie
 const CACHE_NAME = `trivial-${CACHE_VERSION}`;
 
 // Archivos esenciales que siempre deben estar en caché

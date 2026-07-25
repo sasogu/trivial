@@ -125,6 +125,8 @@ function startGame() {
 
 function renderGameUI() {
     gameContent.innerHTML = `
+        <div id="progress-bar-outer"><div id="progress-bar-inner"></div></div>
+        <div id="progress-text"></div>
         <div id="question-container">
             <div id="question">Cargando pregunta...</div>
             <div id="answers"></div>
@@ -140,6 +142,15 @@ function renderGameUI() {
     nextBtn.onclick = nextQuestion;
 }
 
+function updateProgress() {
+    const total = selectedQuestions.length;
+    const current = Math.min(currentQuestion + 1, total);
+    const progressText = document.getElementById('progress-text');
+    const progressInner = document.getElementById('progress-bar-inner');
+    if (progressText) progressText.textContent = `Pregunta ${current} de ${total}`;
+    if (progressInner) progressInner.style.width = `${(current / total) * 100}%`;
+}
+
 function showQuestion() {
     if (!selectedQuestions[currentQuestion]) {
         // Si no hay pregunta, termina el juego
@@ -148,6 +159,7 @@ function showQuestion() {
         nextBtn.style.display = 'none';
         return;
     }
+    updateProgress();
     const q = selectedQuestions[currentQuestion];
     questionEl.textContent = q.question;
     answersEl.innerHTML = '';
