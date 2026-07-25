@@ -91,7 +91,8 @@ h1 {
 
 @media (max-width: 768px) {
     .container {
-        margin: 0 0.8em 4.5em 0.8em;
+        width: calc(100% - 1.6em);
+        margin: 0 auto 4.5em auto;
         padding: 1.3em 1.1em 5.5em 1.1em;
         border-radius: var(--radius-md);
     }
@@ -99,7 +100,8 @@ h1 {
 
 @media (max-width: 480px) {
     .container {
-        margin: 0 0.5em 4.5em 0.5em;
+        width: calc(100% - 1em);
+        margin: 0 auto 4.5em auto;
         padding: 1.1em 0.9em 5.5em 0.9em;
         border-radius: 12px;
     }
@@ -555,7 +557,8 @@ html {
 
 @media (max-width: 360px) {
     .container {
-        margin: 0 0.3em 4.5em 0.3em;
+        width: calc(100% - 0.6em);
+        margin: 0 auto 4.5em auto;
         padding: 0.9em 0.7em 5.5em 0.7em;
     }
 

@@ -1,5 +1,5 @@
 // Versión del caché
-const CACHE_VERSION = 'v2.9.70'; // Rediseño visual: jerarquía de botones, barra de progreso, corrección de solape con el pie
+const CACHE_VERSION = 'v2.9.71'; // Fix: contenedor descentrado en tablets (768-1024px) por márgenes fijos
 const CACHE_NAME = `trivial-${CACHE_VERSION}`;
 
 // Archivos esenciales que siempre deben estar en caché
