@@ -1,19 +1,20 @@
 // Versión del caché
-const CACHE_VERSION = 'v2.9.68'; // Actualizada con logo automático para modo oscuro
+const CACHE_VERSION = 'v2.9.69'; // Corregidas rutas absolutas rotas (el sitio vive en /trivial/, no en la raíz)
 const CACHE_NAME = `trivial-${CACHE_VERSION}`;
 
 // Archivos esenciales que siempre deben estar en caché
+// Rutas relativas: el sitio se sirve en https://sasogu.github.io/trivial/, no en la raíz del dominio
 const ESSENTIAL_FILES = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/main.js',
-  '/questions.js',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png',
-  '/logonegro.png',
-  '/logoblanco.png'
+  './',
+  './index.html',
+  './style.css',
+  './main.js',
+  './questions.js',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './logonegro.png',
+  './logoblanco.png'
 ];
 
 self.addEventListener('install', event => {
@@ -29,13 +30,7 @@ self.addEventListener('install', event => {
             .map(key => caches.delete(key));
           return Promise.all(deletePromises);
         }).then(() => {
-          // Agregar archivos con timestamp para forzar recarga
-          const timestampedFiles = ESSENTIAL_FILES.map(file => {
-            if (file === '/') return file;
-            return `${file}?v=${CACHE_VERSION}&t=${Date.now()}`;
-          });
-          console.log('Service Worker: Cacheando con timestamp:', timestampedFiles);
-          return cache.addAll(ESSENTIAL_FILES); // Usar archivos originales para el caché
+          return cache.addAll(ESSENTIAL_FILES);
         });
       })
       .then(() => {
@@ -91,8 +86,9 @@ self.addEventListener('fetch', event => {
   // Estrategia: Network First para archivos críticos, Cache First para otros
   const url = new URL(event.request.url);
   const isCriticalFile = ESSENTIAL_FILES.some(file => {
-    if (file === '/') return url.pathname === '/';
-    return url.pathname === file || url.pathname.endsWith(file);
+    if (file === './') return url.pathname.endsWith('/');
+    const name = file.replace(/^\.\//, '/'); // './main.js' -> '/main.js'
+    return url.pathname === name || url.pathname.endsWith(name);
   });
   
   if (isCriticalFile) {
@@ -140,7 +136,7 @@ self.addEventListener('fetch', event => {
             .catch(error => {
               console.error('Service Worker: Error en fetch:', error);
               if (event.request.destination === 'document') {
-                return caches.match('/index.html');
+                return caches.match('./index.html');
               }
             });
         })

@@ -266,21 +266,34 @@ async function nextQuestion() {
     }
 }
 
-// --- INTEGRACIÓN FIREBASE RANKING ---
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, push, query, orderByChild, limitToLast, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { firebaseConfig } from './firebase-config.js';
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+// --- INTEGRACIÓN FIREBASE RANKING (carga diferida: un fallo aquí no debe impedir jugar) ---
 const RANKING_PATH = 'ranking';
+let firebasePromise = null;
+
+function loadFirebase() {
+    if (!firebasePromise) {
+        firebasePromise = (async () => {
+            const [{ initializeApp }, { getDatabase, ref, push, query, get }, { firebaseConfig }] = await Promise.all([
+                import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"),
+                import("https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"),
+                import('./firebase-config.js'),
+            ]);
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+            return { ref, push, query, get, db };
+        })();
+    }
+    return firebasePromise;
+}
 
 async function guardarPuntuacion(nombre, puntuacion) {
+    const { ref, push, db } = await loadFirebase();
     await push(ref(db, RANKING_PATH), { nombre, puntuacion, fecha: Date.now() });
 }
 
 async function obtenerRanking(top = 10) {
     // Consulta todos los elementos y filtra solo los válidos
+    const { ref, query, get, db } = await loadFirebase();
     const rankingRef = query(ref(db, RANKING_PATH));
     const snap = await get(rankingRef);
     let arr = [];
@@ -310,13 +323,6 @@ async function obtenerRanking(top = 10) {
 
 // Iniciar cargando preguntas
 loadQuestions();
-
-// Prueba manual de obtención de ranking
-obtenerRanking(10).then(ranking => {
-  console.log('Ranking manual:', ranking);
-}).catch(e => {
-  console.error('Error manual ranking:', e);
-});
 
 // Funciones de feedback táctil para móviles
 function vibrateOnTouch(duration = 50) {
@@ -351,7 +357,7 @@ if (isMobileDevice()) {
 // Service Worker para actualización automática
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('./service-worker.js')
             .then(registration => {
                 console.log('SW registrado con éxito:', registration);
                 
